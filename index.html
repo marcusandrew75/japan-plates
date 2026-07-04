@@ -1,0 +1,2116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>富士 — Journeys Through Old Japan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;500;700;900&family=Zen+Antique&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #c81f2e;
+    --red-deep: #9e1420;
+    --ink: #16303a;
+    --cream: #f0e3c0;
+    --cream-soft: #e8d9b5;
+    --gold: #d9a441;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--red);
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--ink); color: var(--cream); }
+
+  /* ============ HERO ============ */
+  .hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+  }
+
+  /* subtle washi-paper grain over everything */
+  .hero::after {
+    content: "";
+    position: absolute; inset: 0;
+    pointer-events: none;
+    opacity: .35;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+    z-index: 5;
+  }
+
+  .hero-image {
+    position: absolute;
+    right: 0; top: 0;
+    height: 118%;
+    width: 62%;
+    object-fit: cover;
+    object-position: center bottom;
+    will-change: transform;
+    /* fade the left edge into the flat red page background */
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 28%);
+            mask-image: linear-gradient(to right, transparent 0%, black 28%);
+    animation: heroDrift 2.4s cubic-bezier(.22,1,.36,1) both;
+  }
+
+  @keyframes heroDrift {
+    from { transform: scale(1.08) translateY(2%); filter: saturate(.4) brightness(.85); }
+    to   { transform: scale(1) translateY(0);     filter: saturate(1) brightness(1); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    width: 55%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 6vw;
+    will-change: transform, opacity;
+  }
+
+  .hero-kicker {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 300;
+    letter-spacing: .55em;
+    text-transform: uppercase;
+    font-size: clamp(.6rem, .9vw, .8rem);
+    color: var(--cream-soft);
+    opacity: 0;
+    animation: fadeUp 1.2s ease .9s forwards;
+  }
+  .hero-kicker::before {
+    content: "";
+    width: 3.5rem; height: 1px;
+    background: var(--cream-soft);
+  }
+
+  .hero-title {
+    font-family: 'Zen Antique', 'Noto Serif JP', serif;
+    font-size: clamp(4.5rem, 13vw, 12rem);
+    line-height: 1.02;
+    color: var(--cream);
+    margin: 1.5rem 0 1rem;
+    text-shadow: 0 4px 30px rgba(0,0,0,.15);
+  }
+  .hero-title .char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(.6em) rotate(4deg);
+    animation: charIn .9s cubic-bezier(.22,1,.36,1) forwards;
+  }
+
+  @keyframes charIn {
+    to { opacity: 1; transform: translateY(0) rotate(0); }
+  }
+
+  .hero-sub {
+    font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+    font-weight: 300;
+    font-style: italic;
+    max-width: 34ch;
+    color: var(--cream-soft);
+    opacity: 0;
+    animation: fadeUp 1.2s ease 1.6s forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(1.2rem); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* vertical japanese text along left edge */
+  .hero-vertical {
+    position: absolute;
+    left: 1.8vw; top: 50%;
+    transform: translateY(-50%);
+    writing-mode: vertical-rl;
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 300;
+    font-size: clamp(.75rem, 1vw, .95rem);
+    letter-spacing: .5em;
+    color: var(--cream-soft);
+    opacity: 0;
+    animation: fadeUp 1.4s ease 2s forwards;
+    z-index: 10;
+  }
+
+  /* red hanko seal stamp */
+  .hero-seal {
+    position: absolute;
+    right: 4vw; bottom: 10vh;
+    z-index: 10;
+    width: clamp(54px, 5vw, 78px);
+    height: clamp(54px, 5vw, 78px);
+    border: 2px solid var(--cream);
+    border-radius: 6px;
+    display: grid;
+    place-items: center;
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 700;
+    font-size: clamp(1.1rem, 1.7vw, 1.6rem);
+    color: var(--cream);
+    writing-mode: vertical-rl;
+    letter-spacing: .1em;
+    opacity: 0;
+    transform: rotate(-6deg) scale(1.4);
+    animation: sealStamp .5s cubic-bezier(.34,1.56,.64,1) 2.4s forwards;
+  }
+  @keyframes sealStamp {
+    to { opacity: .92; transform: rotate(-6deg) scale(1); }
+  }
+
+  /* scroll cue */
+  .scroll-cue {
+    position: absolute;
+    left: 50%; bottom: 3.5vh;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .6rem;
+    font-size: .65rem;
+    letter-spacing: .45em;
+    text-transform: uppercase;
+    color: var(--cream-soft);
+    opacity: 0;
+    animation: fadeUp 1.2s ease 2.8s forwards;
+  }
+  .scroll-cue .line {
+    width: 1px; height: 4.5rem;
+    background: linear-gradient(var(--cream-soft), transparent);
+    overflow: hidden;
+    position: relative;
+  }
+  .scroll-cue .line::after {
+    content: "";
+    position: absolute; left: 0; top: -50%;
+    width: 100%; height: 50%;
+    background: var(--cream);
+    animation: cueDrop 1.8s ease-in-out infinite;
+  }
+  @keyframes cueDrop {
+    to { top: 110%; }
+  }
+
+  /* ============ SECTION 02 — TORII / SENBON TORII ============ */
+  /* Treatment: ink-on-washi. Light paper ground, sticky split layout,
+     image unveiled by a scroll-progress clip wipe, content staggers in. */
+
+  .torii {
+    background: var(--cream);
+    color: var(--ink);
+    position: relative;
+  }
+
+  /* torn-paper transition between the red hero and the washi section */
+  .torii .tear {
+    position: absolute;
+    top: -1px; left: 0; right: 0;
+    height: 90px;
+    color: var(--red);
+    pointer-events: none;
+  }
+  .torii .tear svg { display: block; width: 100%; height: 100%; }
+
+  .torii-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: clamp(2rem, 5vw, 6rem);
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: clamp(6rem, 12vh, 10rem) 6vw;
+  }
+
+  /* left: sticky artwork, revealed by a clip wipe as the section scrolls */
+  .torii-figure {
+    position: sticky;
+    top: 8vh;
+    align-self: start;
+    height: 84vh;
+  }
+  .torii-figure .frame {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 2px;
+    box-shadow: 0 30px 80px rgba(22,48,58,.25);
+  }
+  .torii-figure img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    /* driven by JS: revealed bottom→top behind an undulating wave edge
+       (clip-path polygon) softened by a travelling gradient mask */
+    transform: scale(calc(1.15 - var(--wipe-n, 0) * .15));
+    will-change: clip-path, transform, mask-image;
+  }
+  .torii-figure .caption {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: .9rem;
+    font-size: .72rem;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: rgba(22,48,58,.55);
+  }
+  .torii-figure .caption .jp {
+    font-family: 'Noto Serif JP', serif;
+    letter-spacing: .2em;
+  }
+
+  /* right: long-form content, elements reveal as they enter */
+  .torii-copy { padding-top: 4vh; }
+
+  .torii-index {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    font-size: .7rem;
+    letter-spacing: .5em;
+    text-transform: uppercase;
+    color: var(--red);
+    font-weight: 600;
+    font-family: 'Noto Serif JP', serif;
+  }
+  .torii-index::after {
+    content: "";
+    flex: 0 0 4rem;
+    height: 1px;
+    background: var(--red);
+  }
+
+  .torii-copy h2 {
+    font-family: 'Zen Antique', 'Noto Serif JP', serif;
+    font-size: clamp(2.8rem, 6vw, 5.2rem);
+    line-height: 1.08;
+    margin: 1.4rem 0 .4rem;
+    font-weight: 400;
+  }
+  .torii-copy h2 .jp { color: var(--red); }
+
+  .torii-copy .romaji {
+    font-style: italic;
+    font-size: clamp(1.05rem, 1.4vw, 1.3rem);
+    color: rgba(22,48,58,.6);
+    margin-bottom: 2.2rem;
+  }
+
+  .torii-copy p.lede {
+    font-size: clamp(1.2rem, 1.7vw, 1.5rem);
+    font-weight: 300;
+    line-height: 1.65;
+    max-width: 56ch;
+  }
+  .torii-copy p.lede::first-letter {
+    font-family: 'Zen Antique', serif;
+    font-size: 3.2em;
+    float: left;
+    line-height: .85;
+    padding: .05em .12em 0 0;
+    color: var(--red);
+  }
+  .torii-copy p {
+    font-size: clamp(1.05rem, 1.35vw, 1.25rem);
+    font-weight: 400;
+    line-height: 1.75;
+    max-width: 58ch;
+    margin-bottom: 1.6rem;
+  }
+
+  /* fact cards */
+  .torii-facts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(22,48,58,.2);
+    border: 1px solid rgba(22,48,58,.2);
+    margin: 3rem 0;
+  }
+  .fact {
+    background: var(--cream);
+    padding: 1.6rem 1.4rem;
+  }
+  .fact .num {
+    font-family: 'Zen Antique', serif;
+    font-size: clamp(1.8rem, 2.6vw, 2.6rem);
+    color: var(--red);
+    line-height: 1;
+  }
+  .fact .num small { font-size: .45em; letter-spacing: .05em; }
+  .fact .label {
+    margin-top: .6rem;
+    font-size: .68rem;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: rgba(22,48,58,.6);
+    line-height: 1.6;
+  }
+
+  /* pull-quote with vertical rule */
+  .torii-quote {
+    margin: 3rem 0;
+    padding-left: 2rem;
+    border-left: 3px solid var(--red);
+    font-size: clamp(1.3rem, 1.9vw, 1.7rem);
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.6;
+    color: rgba(22,48,58,.85);
+  }
+  .torii-quote .attr {
+    display: block;
+    margin-top: 1rem;
+    font-size: .72rem;
+    font-style: normal;
+    letter-spacing: .35em;
+    text-transform: uppercase;
+    color: var(--red);
+  }
+
+  /* generic scroll-reveal primitives (reused by future sections) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(2.2rem);
+    transition: opacity 1s cubic-bezier(.22,1,.36,1), transform 1s cubic-bezier(.22,1,.36,1);
+    transition-delay: var(--d, 0s);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (max-width: 960px) {
+    .torii-inner { grid-template-columns: 1fr; }
+    .torii-figure { position: relative; top: 0; height: 70vh; }
+    .torii-facts { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ============ SECTION 03 — BAMBOO / CHIKURIN ============ */
+  /* Treatment: emakimono handscroll. The section pins and vertical scroll
+     drives a horizontal journey through the grove, right to left —
+     the direction a Japanese scroll is read. */
+
+  :root {
+    --teal-deep: #123840;
+    --teal: #2a6b66;
+    --celadon: #bfd9c9;
+  }
+
+  .bamboo {
+    /* tall runway: the extra height becomes horizontal travel */
+    height: 420vh;
+    position: relative;
+    background: var(--teal-deep);
+  }
+
+  .bamboo-pin {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .bamboo-track {
+    display: flex;
+    height: 100%;
+    width: max-content;
+    will-change: transform;
+    /* translated by JS with scroll progress */
+  }
+
+  .bamboo-panel {
+    flex: 0 0 auto;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  /* text panels */
+  .bamboo-panel.text {
+    width: max(38vw, 480px);
+    padding: 0 5vw;
+    color: var(--celadon);
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .bamboo-panel.text .torii-index { color: var(--celadon); }
+  .bamboo-panel.text .torii-index::after { background: var(--celadon); }
+
+  .bamboo-panel.text h2 {
+    font-family: 'Zen Antique', 'Noto Serif JP', serif;
+    font-size: clamp(2.6rem, 5vw, 4.6rem);
+    font-weight: 400;
+    line-height: 1.1;
+    margin: 1.4rem 0 .4rem;
+    color: #eaf3ea;
+  }
+  .bamboo-panel.text h2 .jp { color: var(--celadon); }
+  .bamboo-panel.text .romaji {
+    font-style: italic;
+    font-size: clamp(1rem, 1.3vw, 1.25rem);
+    color: rgba(191,217,201,.65);
+    margin-bottom: 1.8rem;
+  }
+  .bamboo-panel.text p {
+    font-size: clamp(1.05rem, 1.3vw, 1.25rem);
+    font-weight: 300;
+    line-height: 1.75;
+    max-width: 44ch;
+    margin-bottom: 1.2rem;
+  }
+
+  /* image panels — full-height plates with a thin celadon rule */
+  .bamboo-panel.plate {
+    width: min(58vw, 760px);
+    padding: 6vh 3vw;
+  }
+  .bamboo-panel.plate .frame {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 2px;
+    box-shadow: 0 30px 90px rgba(0,0,0,.45);
+  }
+  .bamboo-panel.plate img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    /* gentle counter-drift so plates glide slower than the track */
+    transform: translateX(calc(var(--drift, 0) * 1px)) scale(1.12);
+    will-change: transform;
+  }
+  .bamboo-panel.plate .plate-label {
+    position: absolute;
+    bottom: 1.2rem; left: 1.4rem;
+    z-index: 2;
+    font-size: .65rem;
+    letter-spacing: .35em;
+    text-transform: uppercase;
+    color: var(--cream);
+    background: rgba(18,56,64,.75);
+    padding: .55em 1em;
+    backdrop-filter: blur(4px);
+  }
+
+  /* the standalone haiku panel */
+  .bamboo-panel.haiku {
+    width: max(34vw, 420px);
+    justify-content: center;
+  }
+  .bamboo-haiku {
+    writing-mode: vertical-rl;
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 300;
+    font-size: clamp(1.3rem, 2vw, 1.9rem);
+    line-height: 2.6;
+    letter-spacing: .35em;
+    color: #eaf3ea;
+    height: 60vh;
+  }
+  .bamboo-haiku .attr {
+    font-size: .55em;
+    color: rgba(191,217,201,.6);
+    letter-spacing: .3em;
+    margin-left: 1.5em;
+  }
+
+  /* stalk-shadow parallax stripes over the whole scroll */
+  .bamboo-pin::after {
+    content: "";
+    position: absolute; inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent 0 140px,
+      rgba(0,0,0,.14) 140px 165px
+    );
+    mix-blend-mode: multiply;
+  }
+
+  /* progress hairline at the bottom of the pinned view */
+  .bamboo-progress {
+    position: absolute;
+    left: 0; bottom: 0;
+    height: 3px; width: 100%;
+    transform-origin: left;
+    transform: scaleX(var(--prog, 0));
+    background: var(--celadon);
+    z-index: 3;
+  }
+
+  /* ============ SECTION 04 — SEASONS / SAKURA ⇄ MOMIJI ============ */
+  /* Treatment: kisetsu wipe. The section pins and scroll drags autumn
+     across spring with a hard vertical divider — one print becoming
+     another, petals on one side, maple leaves on the other. */
+
+  .seasons {
+    height: 320vh;
+    position: relative;
+    background: #2b1114;
+  }
+  .seasons-pin {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .season-layer {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  .season-layer img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transform: scale(1.06);
+  }
+  /* autumn sits on top, clipped from the left; JS drives --split (0→100) */
+  .season-layer.autumn {
+    clip-path: inset(0 0 0 calc(100% - var(--split, 0%)));
+  }
+
+  /* the moving divider blade */
+  .season-blade {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: calc(100% - var(--split, 0%));
+    width: 2px;
+    background: var(--cream);
+    box-shadow: 0 0 24px rgba(0,0,0,.5);
+    z-index: 6;
+  }
+  .season-blade .knob {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: clamp(44px, 4vw, 60px);
+    height: clamp(44px, 4vw, 60px);
+    border-radius: 50%;
+    border: 2px solid var(--cream);
+    background: rgba(20,20,25,.55);
+    backdrop-filter: blur(6px);
+    display: grid;
+    place-items: center;
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(1rem, 1.4vw, 1.3rem);
+    color: var(--cream);
+  }
+
+  /* corner season labels */
+  .season-tag {
+    position: absolute;
+    top: 6vh;
+    z-index: 7;
+    font-family: 'Zen Antique', 'Noto Serif JP', serif;
+    font-size: clamp(2.2rem, 4.5vw, 4rem);
+    color: var(--cream);
+    text-shadow: 0 2px 20px rgba(0,0,0,.4);
+    line-height: 1;
+  }
+  .season-tag small {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: .28em;
+    letter-spacing: .35em;
+    text-transform: uppercase;
+    margin-top: .8em;
+    opacity: .85;
+  }
+  .season-tag.spring { left: 5vw; }
+  .season-tag.autumn-tag { right: 5vw; text-align: right; }
+
+  /* season info cards that swap as the wipe crosses centre */
+  .season-info {
+    position: absolute;
+    bottom: 7vh;
+    z-index: 7;
+    max-width: min(44ch, 42vw);
+    padding: 1.8rem 2rem;
+    background: rgba(15,12,14,.62);
+    backdrop-filter: blur(10px);
+    border-left: 3px solid var(--cream);
+    color: var(--cream);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .season-info h3 {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 500;
+    font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+    letter-spacing: .12em;
+    margin-bottom: .7rem;
+  }
+  .season-info p {
+    font-size: clamp(.95rem, 1.15vw, 1.1rem);
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .season-info.spring-info { left: 5vw; }
+  .season-info.autumn-info { right: 5vw; border-left: none; border-right: 3px solid var(--cream); text-align: right; }
+  .season-info.hidden { opacity: 0; transform: translateY(1.5rem); pointer-events: none; }
+
+  /* drifting petals / leaves — pure CSS, clipped inside each layer */
+  .drift-bit {
+    position: absolute;
+    top: -4vh;
+    width: 10px; height: 8px;
+    border-radius: 60% 40% 55% 45%;
+    opacity: .85;
+    animation: driftFall var(--t, 9s) linear var(--dl, 0s) infinite;
+  }
+  .spring .drift-bit { background: #f6d7de; }
+  .autumn .drift-bit { background: #c8341f; width: 12px; height: 10px; }
+
+  @keyframes driftFall {
+    0%   { transform: translate(0, -5vh) rotate(0deg); }
+    25%  { transform: translate(4vw, 25vh) rotate(140deg); }
+    50%  { transform: translate(-2vw, 52vh) rotate(260deg); }
+    75%  { transform: translate(3vw, 78vh) rotate(400deg); }
+    100% { transform: translate(-1vw, 108vh) rotate(520deg); }
+  }
+
+  /* ============ SECTION 05 — KOI / THE NIGHT POND ============ */
+  /* Treatment: living water. The print itself moves — an animated SVG
+     displacement filter makes koi and water undulate; ripple rings bloom
+     across the surface and the pond answers your touch. */
+
+  .koi {
+    background: #08101e;
+    color: #cfd9e6;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .koi-pond {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .koi-pond img {
+    position: absolute;
+    inset: -2.5%;              /* bleed so displacement never shows edges */
+    width: 105%; height: 105%;
+    object-fit: cover;
+    filter: url(#waterFilter) brightness(.92);
+    will-change: transform;
+  }
+  /* darkened vignette so the type sits on the water */
+  .koi-pond::after {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 45%, transparent 40%, rgba(4,8,16,.55) 100%),
+      linear-gradient(rgba(4,8,16,.45), transparent 30%, transparent 70%, rgba(8,16,30,.9));
+    pointer-events: none;
+  }
+
+  .koi-pond .pond-title {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    pointer-events: none;
+  }
+  .pond-title h2 {
+    font-family: 'Zen Antique', 'Noto Serif JP', serif;
+    font-weight: 400;
+    font-size: clamp(3.5rem, 9vw, 7.5rem);
+    color: var(--cream);
+    text-shadow: 0 4px 40px rgba(0,0,0,.7);
+    line-height: 1;
+  }
+  .pond-title .sub {
+    margin-top: 1.2rem;
+    font-style: italic;
+    font-size: clamp(1rem, 1.5vw, 1.35rem);
+    letter-spacing: .1em;
+    color: rgba(240,227,192,.85);
+  }
+  .pond-title .hint {
+    margin-top: 2.5rem;
+    font-size: .62rem;
+    letter-spacing: .5em;
+    text-transform: uppercase;
+    color: rgba(207,217,230,.55);
+  }
+
+  /* ripple rings — expanding engraved circles */
+  .ripple-ring {
+    position: absolute;
+    z-index: 2;
+    border: 1.5px solid rgba(226,232,240,.55);
+    border-radius: 50%;
+    transform: translate(-50%,-50%);
+    pointer-events: none;
+    animation: rippleGrow var(--rt, 4s) cubic-bezier(.2,.6,.35,1) forwards;
+  }
+  .ripple-ring::after {
+    content: "";
+    position: absolute; inset: 12%;
+    border: 1px solid rgba(226,232,240,.3);
+    border-radius: 50%;
+  }
+  @keyframes rippleGrow {
+    from { width: 0; height: 0; opacity: .9; }
+    to   { width: var(--rs, 40vmin); height: var(--rs, 40vmin); opacity: 0; }
+  }
+
+  /* below the pond: copy + circular ripple reveal of the second print */
+  .koi-body {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: clamp(2rem, 5vw, 6rem);
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: clamp(5rem, 10vh, 9rem) 6vw;
+    align-items: center;
+  }
+  .koi-copy .torii-index { color: #e8734a; }
+  .koi-copy .torii-index::after { background: #e8734a; }
+  .koi-copy h3 {
+    font-family: 'Zen Antique', serif;
+    font-weight: 400;
+    font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+    color: #eef3f8;
+    line-height: 1.15;
+    margin: 1.3rem 0 1.6rem;
+  }
+  .koi-copy p {
+    font-size: clamp(1.05rem, 1.3vw, 1.25rem);
+    font-weight: 300;
+    line-height: 1.8;
+    max-width: 56ch;
+    margin-bottom: 1.4rem;
+    color: #c3cedd;
+  }
+  .koi-copy em { color: #e8734a; font-style: normal; }
+
+  .koi-reveal {
+    position: relative;
+    aspect-ratio: 3/4;
+    max-height: 82vh;
+    justify-self: center;
+    width: 100%;
+  }
+  .koi-reveal img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    border-radius: 2px;
+    /* circular ripple reveal driven by scroll: --r 0% → 75% */
+    clip-path: circle(var(--r, 0%) at 50% 50%);
+    box-shadow: 0 30px 90px rgba(0,0,0,.6);
+  }
+  /* wavefront ring riding the clip edge */
+  .koi-reveal .wavefront {
+    position: absolute;
+    left: 50%; top: 50%;
+    width: calc(var(--rp, 0) * 2%);
+    height: calc(var(--rp, 0) * 2%);
+    aspect-ratio: 1;
+    transform: translate(-50%,-50%);
+    border: 1.5px solid rgba(232,115,74,.6);
+    border-radius: 50%;
+    opacity: calc(1 - var(--rn, 0));
+    pointer-events: none;
+  }
+
+  @media (max-width: 960px) {
+    .koi-body { grid-template-columns: 1fr; }
+  }
+
+  /* ============ SECTION 06 — LANTERNS / MATSURI NIGHT ============ */
+  /* Treatment: festival night. The darkest chapter — lantern plates hang,
+     sway and flicker alight as they enter view, embers rise through the
+     dark, and the night itself brightens the deeper you scroll. */
+
+  .matsuri {
+    position: relative;
+    background: #050409;
+    color: #d8cdc2;
+    overflow: hidden;
+    padding: clamp(6rem, 14vh, 12rem) 0 clamp(6rem, 12vh, 10rem);
+  }
+  /* the dark lifts as you scroll deeper — JS drives --night 1→0 */
+  .matsuri::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: #020103;
+    opacity: calc(var(--night, 1) * .55);
+    z-index: 4;
+    pointer-events: none;
+    transition: opacity .2s linear;
+  }
+
+  .matsuri-head {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    margin-bottom: clamp(3rem, 8vh, 6rem);
+    padding: 0 6vw;
+  }
+  .matsuri-head .torii-index {
+    justify-content: center;
+    color: #e8944a;
+  }
+  .matsuri-head .torii-index::after { background: #e8944a; }
+  .matsuri-head h2 {
+    font-family: 'Zen Antique', 'Noto Serif JP', serif;
+    font-weight: 400;
+    font-size: clamp(3rem, 7.5vw, 6.5rem);
+    line-height: 1.1;
+    margin: 1.4rem 0 1rem;
+    color: #f5e9d2;
+  }
+  /* the title itself glows alight when lit */
+  .matsuri-head h2 .glow {
+    color: #ffb45e;
+    text-shadow: none;
+    transition: text-shadow 1.8s ease;
+  }
+  .matsuri.lit .matsuri-head h2 .glow {
+    text-shadow: 0 0 30px rgba(255,150,60,.75), 0 0 90px rgba(255,110,30,.4);
+  }
+  .matsuri-head .romaji {
+    font-style: italic;
+    font-size: clamp(1rem, 1.4vw, 1.3rem);
+    color: rgba(216,205,194,.6);
+  }
+
+  /* hanging triptych */
+  .matsuri-plates {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.2rem, 2.5vw, 2.5rem);
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 5vw;
+  }
+
+  .lantern-plate {
+    position: relative;
+    transform-origin: 50% -80px;   /* swing from the string above */
+    animation: lanternSway var(--sw, 7s) ease-in-out var(--swd, 0s) infinite alternate;
+  }
+  /* the cord it hangs from */
+  .lantern-plate::before {
+    content: "";
+    position: absolute;
+    left: 50%; top: -80px;
+    width: 1px; height: 80px;
+    background: rgba(216,205,194,.28);
+  }
+  @keyframes lanternSway {
+    from { transform: rotate(-1.1deg); }
+    to   { transform: rotate(1.1deg); }
+  }
+
+  .lantern-plate .frame {
+    overflow: hidden;
+    border-radius: 3px;
+    aspect-ratio: 2/3;
+  }
+  .lantern-plate img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    /* unlit until scrolled into view */
+    filter: brightness(.16) saturate(.5);
+    transform: scale(1.04);
+    transition: transform 1.2s ease;
+  }
+  .lantern-plate:hover img { transform: scale(1.09); }
+
+  /* ignition: a stuttering flicker to full glow */
+  .lantern-plate.lit img {
+    animation: igniteFlicker 2.2s ease-out var(--ig, 0s) forwards;
+  }
+  @keyframes igniteFlicker {
+    0%   { filter: brightness(.16) saturate(.5); }
+    8%   { filter: brightness(.85) saturate(1); }
+    12%  { filter: brightness(.2) saturate(.6); }
+    20%  { filter: brightness(1) saturate(1.05); }
+    26%  { filter: brightness(.45) saturate(.8); }
+    38%  { filter: brightness(1.06) saturate(1.05); }
+    100% { filter: brightness(1) saturate(1); }
+  }
+  /* warm halo behind each plate once lit */
+  .lantern-plate .halo {
+    position: absolute; inset: -12%;
+    background: radial-gradient(ellipse at 50% 40%, rgba(255,140,50,.28), transparent 65%);
+    opacity: 0;
+    transition: opacity 2.5s ease var(--ig, 0s);
+    pointer-events: none;
+    z-index: -1;
+  }
+  .lantern-plate.lit .halo { opacity: 1; }
+
+  .lantern-plate figcaption {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: .62rem;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: rgba(216,205,194,.5);
+  }
+  .lantern-plate figcaption .jp {
+    font-family: 'Noto Serif JP', serif;
+    letter-spacing: .15em;
+  }
+
+  /* rising embers */
+  .ember {
+    position: absolute;
+    bottom: -3vh;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #ffab52;
+    box-shadow: 0 0 8px 2px rgba(255,140,50,.5);
+    opacity: 0;
+    animation: emberRise var(--et, 11s) linear var(--ed, 0s) infinite;
+    z-index: 2;
+    pointer-events: none;
+  }
+  @keyframes emberRise {
+    0%   { transform: translate(0,0); opacity: 0; }
+    8%   { opacity: .85; }
+    55%  { transform: translate(3vw, -55vh); opacity: .5; }
+    100% { transform: translate(-2vw, -105vh); opacity: 0; }
+  }
+
+  /* closing copy under the triptych */
+  .matsuri-copy {
+    position: relative;
+    z-index: 5;
+    max-width: 68ch;
+    margin: clamp(4rem, 9vh, 7rem) auto 0;
+    padding: 0 6vw;
+    text-align: center;
+  }
+  .matsuri-copy p {
+    font-size: clamp(1.05rem, 1.35vw, 1.3rem);
+    font-weight: 300;
+    line-height: 1.85;
+    margin-bottom: 1.5rem;
+    color: #cfc4b8;
+  }
+  .matsuri-copy em { color: #ffb45e; font-style: normal; }
+
+  @media (max-width: 960px) {
+    .matsuri-plates { grid-template-columns: 1fr; max-width: 560px; }
+    .lantern-plate { animation: none; }
+    .lantern-plate::before { display: none; }
+  }
+
+  /* ============ SECTION 07 — PAGODA / THE MIST INTERLUDE ============ */
+  /* Treatment: kasumi. A quiet sumi-e palate cleanser — the section pins
+     and banks of drifting fog thin with scroll until the pagoda stands
+     sharp; the print emerges from its own mist. */
+
+  .mist {
+    height: 300vh;
+    position: relative;
+    background: #eef0e9;
+  }
+  .mist-pin {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+  }
+  .mist-pin img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    /* starts washed-out and soft; sharpens as the mist clears (JS: --clear 0→1) */
+    filter:
+      blur(calc((1 - var(--clear, 0)) * 7px))
+      contrast(calc(.75 + var(--clear, 0) * .25))
+      brightness(calc(1.12 - var(--clear, 0) * .12));
+    transform: scale(calc(1.12 - var(--clear, 0) * .08));
+    will-change: filter, transform;
+  }
+
+  /* drifting fog banks — huge soft blobs sliding at different speeds */
+  .fog {
+    position: absolute;
+    width: 130vw; height: 55vh;
+    border-radius: 50%;
+    background: radial-gradient(ellipse closest-side, rgba(238,240,233,.95), rgba(238,240,233,0));
+    filter: blur(10px);
+    opacity: calc((1 - var(--clear, 0)) * var(--fo, .9));
+    animation: fogDrift var(--ft, 40s) linear infinite alternate;
+    pointer-events: none;
+  }
+  @keyframes fogDrift {
+    from { transform: translateX(-12vw); }
+    to   { transform: translateX(12vw); }
+  }
+
+  /* the giant character that dissolves as the mist clears */
+  .mist-kanji {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Zen Antique', 'Noto Serif JP', serif;
+    font-size: clamp(8rem, 24vw, 22rem);
+    color: rgba(58,74,78,.9);
+    opacity: calc(1 - var(--clear, 0) * 1.6);
+    letter-spacing: 0;
+    transform: translateY(calc(var(--clear, 0) * -6vh));
+    pointer-events: none;
+  }
+  .mist-kanji small {
+    margin-top: clamp(1rem, 3vh, 2.5rem);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(.9rem, 1.3vw, 1.2rem);
+    letter-spacing: .5em;
+    text-transform: uppercase;
+    color: rgba(58,74,78,.75);
+  }
+
+  /* info card that surfaces once the pagoda is clear */
+  .mist-card {
+    position: absolute;
+    left: 5vw; bottom: 7vh;
+    max-width: min(48ch, 44vw);
+    padding: 2rem 2.2rem;
+    background: rgba(248,249,245,.82);
+    backdrop-filter: blur(8px);
+    border-left: 3px solid #3a4a4e;
+    color: #26343a;
+    opacity: calc((var(--clear, 0) - .6) * 2.5);
+    transform: translateY(calc((1 - var(--clear, 0)) * 3rem));
+    transition: opacity .2s linear;
+  }
+  .mist-card h3 {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 500;
+    font-size: clamp(1.15rem, 1.7vw, 1.5rem);
+    letter-spacing: .1em;
+    margin-bottom: .8rem;
+  }
+  .mist-card p {
+    font-size: clamp(.95rem, 1.15vw, 1.12rem);
+    font-weight: 400;
+    line-height: 1.75;
+    margin-bottom: .9rem;
+  }
+  .mist-card p:last-child { margin-bottom: 0; }
+  .mist-card .plate-no {
+    display: block;
+    margin-bottom: 1rem;
+    font-size: .62rem;
+    letter-spacing: .35em;
+    text-transform: uppercase;
+    color: rgba(38,52,58,.55);
+  }
+
+  @media (max-width: 760px) {
+    .mist-card { max-width: 86vw; left: 7vw; bottom: 4vh; padding: 1.4rem 1.6rem; }
+  }
+
+  /* ============ SECTION 08 — TEA & BONSAI / THE PATIENT ARTS ============ */
+  /* Treatment: stacking scrolls. A breathing line-by-line poem opens the
+     chapter, then each print is a full-screen card that slides up and
+     seals over the last, Ken-Burns zooming as it passes. */
+
+  .patience {
+    background: #434a1d;
+    color: #e8e4c4;
+    position: relative;
+  }
+
+  .patience-intro {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: clamp(6rem, 12vh, 9rem) 6vw 3rem;
+  }
+  .patience-intro .torii-index { color: #cdd08a; justify-content: center; }
+  .patience-intro .torii-index::after { background: #cdd08a; }
+  .patience-intro h2 {
+    font-family: 'Zen Antique', 'Noto Serif JP', serif;
+    font-weight: 400;
+    font-size: clamp(2.8rem, 6.5vw, 5.5rem);
+    margin: 1.6rem 0 2.5rem;
+    color: #f2eed2;
+  }
+  /* breathing lines: each unmasks upward in sequence */
+  .breath-line {
+    display: block;
+    overflow: hidden;
+    font-size: clamp(1.15rem, 1.6vw, 1.45rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 2.1;
+    color: rgba(232,228,196,.9);
+  }
+  .breath-line span {
+    display: block;
+    transform: translateY(110%);
+    transition: transform 1.1s cubic-bezier(.22,1,.36,1) var(--d, 0s);
+  }
+  .breath-line.in span { transform: none; }
+
+  /* stacking cards */
+  .patience-card {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+  }
+  .patience-card.tea    { background: #37411a; }
+  .patience-card.bonsai { background: #b8480e; }
+
+  .patience-card .art {
+    position: relative;
+    overflow: hidden;
+  }
+  .patience-card .art img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    /* JS-driven Ken Burns: --kz 0→1 over the card's pass */
+    transform: scale(calc(1.18 - var(--kz, 0) * .18));
+    will-change: transform;
+  }
+  .patience-card .plate-label {
+    position: absolute;
+    bottom: 1.4rem; left: 1.6rem;
+    font-size: .62rem;
+    letter-spacing: .35em;
+    text-transform: uppercase;
+    color: var(--cream);
+    background: rgba(20,22,8,.6);
+    padding: .55em 1em;
+    backdrop-filter: blur(4px);
+  }
+
+  .patience-card .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 clamp(2rem, 4.5vw, 5rem);
+  }
+  .patience-card .info .kicker {
+    font-family: 'Noto Serif JP', serif;
+    font-size: .72rem;
+    letter-spacing: .5em;
+    text-transform: uppercase;
+    margin-bottom: 1.6rem;
+    opacity: .75;
+  }
+  .patience-card .info h3 {
+    font-family: 'Zen Antique', serif;
+    font-weight: 400;
+    font-size: clamp(2rem, 3.8vw, 3.4rem);
+    line-height: 1.15;
+    margin-bottom: 1.6rem;
+  }
+  .patience-card .info h3 .jp { display: block; font-size: 1.25em; margin-bottom: .2em; }
+  .patience-card .info p {
+    font-size: clamp(1rem, 1.25vw, 1.2rem);
+    font-weight: 300;
+    line-height: 1.8;
+    max-width: 48ch;
+    margin-bottom: 1.3rem;
+  }
+  .patience-card.tea    .info { color: #e9e6c8; }
+  .patience-card.tea    .info em { color: #b6e05f; font-style: normal; }
+  .patience-card.bonsai .info { color: #ffe9d2; }
+  .patience-card.bonsai .info em { color: #ffd08a; font-style: normal; }
+
+  @media (max-width: 960px) {
+    .patience-card { grid-template-columns: 1fr; grid-template-rows: 55vh 1fr; }
+    .patience-card .info { padding: 2.2rem 8vw 3rem; }
+  }
+
+  /* ============ SECTION 09 — SAMURAI / THE FINALE ============ */
+  /* Treatment: three cuts. A black screen; scroll draws three diagonal
+     katana strokes across it, each opening a slice of the portrait,
+     until the warrior stands whole beneath the red sun. */
+
+  .samurai {
+    height: 380vh;
+    position: relative;
+    background: #060404;
+  }
+  .samurai-pin {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    background: #060404;
+  }
+  /* three copies of the portrait, each clipped to its own diagonal band */
+  .cut {
+    position: absolute;
+    inset: 0;
+    will-change: clip-path;
+  }
+  .cut img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+  }
+  /* faint pre-echo of the portrait so the black isn't empty */
+  .samurai-ghost {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    opacity: .07;
+    filter: grayscale(1);
+  }
+
+  /* finale titles, arriving after the third cut */
+  .samurai-title {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: 0 6vw 9vh;
+    pointer-events: none;
+    opacity: var(--tt, 0);
+    transform: translateY(calc((1 - var(--tt, 0)) * 3rem));
+  }
+  .samurai-title .torii-index {
+    color: var(--cream);
+    text-shadow: 0 2px 16px rgba(0,0,0,.9);
+  }
+  .samurai-title .torii-index::after {
+    background: var(--cream);
+    box-shadow: 0 2px 10px rgba(0,0,0,.8);
+  }
+  .samurai-title h2 {
+    font-family: 'Zen Antique', 'Noto Serif JP', serif;
+    font-weight: 400;
+    font-size: clamp(3rem, 8vw, 7rem);
+    color: var(--cream);
+    line-height: 1.05;
+    margin: 1.2rem 0 .8rem;
+    text-shadow: 0 6px 50px rgba(0,0,0,.9);
+  }
+  .samurai-title .romaji {
+    font-style: italic;
+    font-size: clamp(1rem, 1.5vw, 1.35rem);
+    color: rgba(240,227,192,.85);
+    max-width: 46ch;
+    text-shadow: 0 2px 20px rgba(0,0,0,.9);
+  }
+
+  /* closing copy + colophon */
+  .colophon {
+    background: #060404;
+    color: #cbb9a2;
+    padding: clamp(5rem, 12vh, 10rem) 6vw clamp(4rem, 8vh, 6rem);
+  }
+  .colophon-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .colophon-inner > p {
+    font-size: clamp(1.05rem, 1.35vw, 1.3rem);
+    font-weight: 300;
+    line-height: 1.85;
+    margin-bottom: 1.5rem;
+  }
+  .colophon-inner em { color: #d9534a; font-style: normal; }
+
+  .colophon .plates {
+    margin: clamp(3rem, 7vh, 5rem) 0;
+    padding: 2.5rem 0;
+    border-top: 1px solid rgba(203,185,162,.25);
+    border-bottom: 1px solid rgba(203,185,162,.25);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .9rem 2rem;
+    font-size: .72rem;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: rgba(203,185,162,.6);
+    text-align: left;
+  }
+  .colophon .plates a {
+    color: inherit;
+    text-decoration: none;
+    transition: color .3s ease;
+  }
+  .colophon .plates a:hover { color: #d9534a; }
+  .colophon .plates a b {
+    color: rgba(203,185,162,.95);
+    font-weight: 500;
+  }
+
+  .colophon .back-to-start {
+    display: inline-block;
+    text-decoration: none;
+    transition: transform .3s ease;
+  }
+  .colophon .back-to-start:hover { transform: translateY(-3px); }
+  .colophon .back-to-start:hover .fin { color: #d9534a; }
+
+  .colophon .credit {
+    margin-top: 2.5rem;
+    font-size: .82rem;
+    font-weight: 300;
+    letter-spacing: .08em;
+    color: rgba(203,185,162,.6);
+  }
+  .colophon .credit a {
+    color: rgba(203,185,162,.95);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(217,83,74,.6);
+    transition: color .3s ease, border-color .3s ease;
+  }
+  .colophon .credit a:hover { color: #d9534a; border-color: #d9534a; }
+
+  .colophon .end-seal {
+    width: 64px; height: 64px;
+    margin: 0 auto 1.4rem;
+    border: 2px solid #d9534a;
+    border-radius: 6px;
+    display: grid;
+    place-items: center;
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 700;
+    font-size: 1.7rem;
+    color: #d9534a;
+    transform: rotate(-5deg);
+  }
+  .colophon .fin {
+    font-size: .68rem;
+    letter-spacing: .5em;
+    text-transform: uppercase;
+    color: rgba(203,185,162,.5);
+  }
+
+  @media (max-width: 760px) {
+    .colophon .plates { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 760px) {
+    .season-info { max-width: 80vw; }
+    .season-info.autumn-info { bottom: 7vh; }
+    .season-info.spring-info { bottom: 24vh; }
+    .season-tag { font-size: 2rem; }
+  }
+
+  @media (max-width: 760px) {
+    .bamboo { height: auto; background: var(--teal-deep); }
+    .bamboo-pin { position: relative; height: auto; overflow: visible; }
+    .bamboo-track { flex-direction: column; width: 100%; transform: none !important; }
+    .bamboo-panel { width: 100% !important; }
+    .bamboo-panel.plate { height: 70vh; }
+    .bamboo-panel.text { padding: 4rem 8vw; }
+    .bamboo-haiku { height: auto; writing-mode: horizontal-tb; line-height: 2; }
+  }
+
+  @media (max-width: 760px) {
+    .hero-image { width: 100%; opacity: .5; mask-image: none; -webkit-mask-image: none; }
+    .hero-content { width: 100%; }
+    .hero-vertical { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01s !important; animation-delay: 0s !important; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero" id="hero">
+  <img class="hero-image" id="heroImg"
+       src="assets/_marcandrew_ukiyo-e_style_illustration_of_Mount_Fuji_Japanese_w_8d24365a-cbeb-4335-8cc2-0257a87481bf.png"
+       alt="Ukiyo-e woodblock print of a crimson Mount Fuji rising behind a great cresting wave, rendered in vermillion red, cream and deep indigo — an homage to Hokusai's Great Wave off Kanagawa.">
+
+  <div class="hero-vertical">浮世絵の旅 — 日本の心</div>
+
+  <div class="hero-content" id="heroContent">
+    <div class="hero-kicker">A Journey Through Old Japan</div>
+    <h1 class="hero-title" id="heroTitle">富士山</h1>
+    <p class="hero-sub">Where the crimson sky meets the great wave — a scroll through the floating world, one woodblock print at a time.</p>
+  </div>
+
+  <div class="hero-seal">富士</div>
+
+  <div class="scroll-cue"><div class="line"></div><span>Scroll</span></div>
+</section>
+
+<!-- ===== 02 · TORII — ink-on-washi treatment: sticky figure, scroll-wipe reveal ===== -->
+<section class="torii" id="torii">
+  <div class="tear" aria-hidden="true">
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none" fill="currentColor">
+      <path d="M0,0 L1440,0 L1440,28 C1360,52 1290,20 1200,44 C1090,72 1010,30 900,50 C800,68 730,26 620,46 C520,64 440,24 330,48 C230,70 120,34 0,54 Z"/>
+    </svg>
+  </div>
+
+  <div class="torii-inner">
+    <figure class="torii-figure">
+      <div class="frame">
+        <img id="toriiImg"
+             src="assets/_marcandrew_kiyo-e_style_illustration_of_Fushimi_Inari_torii_ga_685c206d-1fc0-49e1-9bdc-7bcf98e86bb8.png"
+             alt="Woodblock-style print looking up along a row of vermillion torii gates at Fushimi Inari, black inscriptions on the pillars, indigo cedar trees behind, and a huge red sun hanging in a pale cream sky.">
+      </div>
+      <figcaption class="caption">
+        <span>Plate II — Kyoto</span>
+        <span class="jp">千本鳥居</span>
+      </figcaption>
+    </figure>
+
+    <div class="torii-copy">
+      <div class="torii-index reveal">02 · The Vermillion Path</div>
+      <h2 class="reveal" style="--d:.1s"><span class="jp">千本鳥居</span><br>Ten Thousand Gates</h2>
+      <p class="romaji reveal" style="--d:.2s">Senbon Torii — Fushimi Inari-taisha, Kyoto</p>
+
+      <p class="lede reveal" style="--d:.25s">Beneath the cedar slopes of Mount Inari, thousands of vermillion gates lean into one another until they become a tunnel of light. Each torii marks the threshold between the ordinary world and the sacred — pass through one, and you have already left something behind.</p>
+
+      <p class="reveal">The gates are donated: every pillar carries the black-inked name of the merchant or family who offered it, a prayer for prosperity written in lacquer and cedar. The practice dates to the Edo period, and the mountain has been accepting gates faster than weather can retire them ever since. Walk the full circuit and the light strobes red-shadow-red for four kilometres.</p>
+
+      <div class="torii-facts">
+        <div class="fact reveal" style="--d:0s">
+          <div class="num" data-count="10000">0</div>
+          <div class="label">Torii gates on the mountain</div>
+        </div>
+        <div class="fact reveal" style="--d:.12s">
+          <div class="num" data-count="711"><small>AD&nbsp;</small>0</div>
+          <div class="label">Shrine founded, Hatsu-uma day</div>
+        </div>
+        <div class="fact reveal" style="--d:.24s">
+          <div class="num" data-count="4"><small>km&nbsp;</small>0</div>
+          <div class="label">Pilgrim path to the summit</div>
+        </div>
+      </div>
+
+      <p class="reveal">Inari is the kami of rice, sake, and commerce, attended by stone foxes — <em>kitsune</em> — who carry keys to the granary in their mouths. The vermillion itself is no accident: the pigment, once mixed with mercury, was believed to repel decay and evil alike. In this print, the artist tilts the camera skyward so the gates crowd the frame like masts, and hangs a snow-flecked red sun behind the cedars.</p>
+
+      <blockquote class="torii-quote reveal">
+        The gate does not ask where you are going.<br>It only marks that you have chosen to go.
+        <span class="attr">— Pilgrim proverb, Mount Inari</span>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 03 · BAMBOO — emakimono treatment: pinned horizontal handscroll ===== -->
+<section class="bamboo" id="bamboo">
+  <div class="bamboo-pin">
+    <div class="bamboo-track" id="bambooTrack">
+
+      <div class="bamboo-panel text">
+        <div class="torii-index">03 · The Green Cathedral</div>
+        <h2><span class="jp">竹林</span><br>The Bamboo Grove</h2>
+        <p class="romaji">Chikurin — Arashiyama, western Kyoto</p>
+        <p>Step off the road at Arashiyama and the temperature drops. Mōsō bamboo climbs twenty metres before it leafs, so the grove becomes a hall of green columns with the canopy for a ceiling — daylight arrives already filtered, the colour of shallow water.</p>
+        <p>Keep scrolling — the scroll unrolls sideways from here, the way an <em>emakimono</em> handscroll is read.</p>
+      </div>
+
+      <div class="bamboo-panel plate">
+        <div class="frame">
+          <img data-drift src="assets/_marcandrew_ukiyo-e_style_bamboo_forest_in_perspective_Japanese_02910004-3ff8-4eb2-9ed5-ece25a4f8658.png"
+               alt="Woodblock-style print of a bamboo grove: cream and celadon culms with ringed nodes lean gently across a dark teal thicket, feathery pale leaves catching light at the top of the frame.">
+          <span class="plate-label">Plate III · The Thicket</span>
+        </div>
+      </div>
+
+      <div class="bamboo-panel text">
+        <p>Bamboo is a grass, not a tree — and it behaves like one. A mōsō shoot can rise a full metre in a day; you can sit beside it and watch it grow. Yet the same stalk bends to the ground under snow and stands back up, which is why bamboo, with pine and plum, is one of the <em>Three Friends of Winter</em>.</p>
+        <p>Sound is the grove's other art. The Ministry of the Environment lists the knock and creak of Arashiyama's swaying culms among the <em>100 Soundscapes of Japan</em>.</p>
+      </div>
+
+      <div class="bamboo-panel plate">
+        <div class="frame">
+          <img data-drift src="assets/_marcandrew_ukiyo-e_style_bamboo_forest_in_perspective_Japanese_890d04fa-0861-47f3-82c2-17c65d66b200.png"
+               alt="Low-angle woodblock-style view up massive bamboo trunks, pale ivory culms banded with brown nodes converging toward a ceiling of dense teal foliage and scattered leaf silhouettes.">
+          <span class="plate-label">Plate IV · Looking Up</span>
+        </div>
+      </div>
+
+      <div class="bamboo-panel haiku">
+        <div class="bamboo-haiku">
+          竹の風<br>
+          光をこして<br>
+          道しるべ
+          <span class="attr">wind in the bamboo — light sifted green becomes the path</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="bamboo-progress" id="bambooProgress"></div>
+  </div>
+</section>
+
+<!-- ===== 04 · SEASONS — kisetsu wipe: scroll drags autumn across spring ===== -->
+<section class="seasons" id="seasons">
+  <div class="seasons-pin" id="seasonsPin">
+
+    <div class="season-layer spring">
+      <img src="assets/_marcandrew_ukiyo-e_style_cherry_blossom_tree_branches_Japanese_09fe7dfb-ba1c-42b5-be40-5405977fb973.png"
+           alt="Woodblock-style print of a gnarled cherry tree in full bloom against a rose-pink sky, ivory and magenta blossoms on twisting dark branches, a lone bird perched on a bough and a dusky Mount Fuji on the horizon.">
+    </div>
+
+    <div class="season-layer autumn">
+      <img src="assets/_marcandrew_ukiyo-e_style_Japanese_maple_tree_with_falling_leav_8b98babc-9883-46a6-9939-d8d3769f7b93.png"
+           alt="Woodblock-style print of an ancient Japanese maple, black serpentine branches carrying a canopy of crimson and scarlet leaves over an amber valley, single leaves drifting loose into the air.">
+    </div>
+
+    <div class="season-blade" aria-hidden="true"><div class="knob">季</div></div>
+
+    <div class="season-tag spring">春<small>Haru — Spring</small></div>
+    <div class="season-tag autumn-tag">秋<small>Aki — Autumn</small></div>
+
+    <div class="season-info spring-info" id="springInfo">
+      <h3>花見 · Hanami</h3>
+      <p>The sakura front is tracked on the evening news like weather, moving north at walking pace from Kyūshū to Hokkaidō. Full bloom lasts scarcely a week — which is the point. The blossoms teach <em>mono no aware</em>, the gentle ache of things that pass. Note the bird pausing on the bough: even it seems to know to sit still.</p>
+    </div>
+
+    <div class="season-info autumn-info hidden" id="autumnInfo">
+      <h3>紅葉狩り · Momijigari</h3>
+      <p>Autumn runs the same journey in reverse — the crimson front descends from the north as maples turn. <em>Momijigari</em>, "hunting red leaves," has been a pastime since the Heian court. Where spring is a crowd under falling petals, autumn is quieter: one twisted maple, an amber valley, and leaves letting go one at a time.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== 05 · KOI — living-water treatment: displacement ripples, tap the pond ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="waterFilter" x="-5%" y="-5%" width="110%" height="110%">
+    <feTurbulence id="waterTurb" type="fractalNoise" baseFrequency="0.010 0.016" numOctaves="2" seed="4" result="noise"/>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="16" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+<section class="koi" id="koi">
+  <div class="koi-pond" id="koiPond">
+    <img id="koiPondImg"
+         src="assets/_marcandrew_ukiyo-e_style_koi_fish_swimming_in_dark_pond_from_a_0f05fe7d-c655-492b-bdb8-9b249ba78718.png"
+         alt="Top-down woodblock-style print of a midnight pond: five orange-and-white koi and one slate-blue koi circle among teal lotus leaves, the black water engraved with concentric ripple rings and flecked with gold.">
+    <div class="pond-title">
+      <h2>鯉の池</h2>
+      <div class="sub">The Night Pond — where the water never stops moving</div>
+      <div class="hint">Touch the water</div>
+    </div>
+  </div>
+
+  <div class="koi-body">
+    <div class="koi-copy">
+      <div class="torii-index reveal">05 · Beneath the Surface</div>
+      <h3 class="reveal" style="--d:.1s">The carp that climbed the waterfall</h3>
+      <p class="reveal" style="--d:.15s">Chinese legend says a carp that fights its way up the falls at Dragon Gate becomes a dragon — which is why the koi stands for <em>perseverance</em>, and why paper carp streamers fly for Children's Day each May. The fish earns its myth: koi routinely live half a century, and one scarlet koi named <em>Hanako</em> was ring-dated to 226 years.</p>
+      <p class="reveal" style="--d:.2s">The ornamental breeds — <em>nishikigoi</em>, "brocaded carp" — began as a rice farmer's sideline in the snow valleys of Niigata around 1820. A mutation of colour in a food carp, kept instead of eaten, became a living jewel trade where single fish now change hands for the price of a house.</p>
+      <p class="reveal" style="--d:.25s">In both prints the artist follows ukiyo-e convention: the pond is seen flat from above, the water told entirely through engraved line — concentric rings in the dark pond, combed swirls in the pale one — so the fish seem to float on pattern rather than depth.</p>
+    </div>
+
+    <div class="koi-reveal" id="koiReveal">
+      <img id="koiRevealImg"
+           src="assets/_marcandrew_ukiyo-e_style_koi_fish_swimming_in_pond_Japanese_wo_4409467b-b343-47c1-bec3-0d5a7fde7323.png"
+           alt="Woodblock-style print of orange-and-cream koi weaving between pale lotus pads on an indigo pond drawn entirely with combed wave lines, two small koi darting at the edges.">
+      <div class="wavefront" id="koiWavefront"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 06 · LANTERNS — matsuri night: lanterns ignite, sway, embers rise ===== -->
+<section class="matsuri" id="matsuri">
+
+  <div class="matsuri-head">
+    <div class="torii-index reveal">06 · Festival Night</div>
+    <h2 class="reveal" style="--d:.1s">提<span class="glow">灯</span>の夜<br>Night of a Thousand Lanterns</h2>
+    <p class="romaji reveal" style="--d:.2s">Chōchin — paper, bamboo, and a single flame</p>
+  </div>
+
+  <div class="matsuri-plates">
+    <figure class="lantern-plate" style="--sw:7s; --swd:0s; --ig:0s">
+      <div class="frame">
+        <img src="assets/_marcandrew_ukiyo-e_style_hanging_paper_lanterns_at_night_festi_1c8130f5-4f1a-4cf9-b1e9-316154e2c04f.png"
+             alt="Strings of glowing orange paper lanterns with black calligraphy sweep across a pitch-black night sky, sparks and embers scattered like fireflies along the cords.">
+      </div>
+      <div class="halo"></div>
+      <figcaption><span>Plate VII · First Dark</span><span class="jp">宵闇</span></figcaption>
+    </figure>
+
+    <figure class="lantern-plate" style="--sw:8.5s; --swd:-2.5s; --ig:.5s">
+      <div class="frame">
+        <img src="assets/_marcandrew_ukiyo-e_style_hanging_paper_lanterns_at_night_festi_453dbe52-2fe4-40e7-a237-a218043cd9ed.png"
+             alt="A diagonal procession of ribbed red-orange chōchin lanterns recedes into a festival street, hundreds more melting into warm bokeh lights in the darkness behind.">
+      </div>
+      <div class="halo"></div>
+      <figcaption><span>Plate VIII · The Procession</span><span class="jp">祭りの列</span></figcaption>
+    </figure>
+
+    <figure class="lantern-plate" style="--sw:7.8s; --swd:-5s; --ig:1s">
+      <div class="frame">
+        <img src="assets/_marcandrew_ukiyo-e_style_hanging_paper_lanterns_at_night_festi_b57d7145-aa9e-40d5-87be-eb287b0ef508.png"
+             alt="Giant barrel lanterns painted with dark kanji hang among crossing power lines against a violet dusk, small round festival bulbs strung between them like constellations.">
+      </div>
+      <div class="halo"></div>
+      <figcaption><span>Plate IX · Violet Hour</span><span class="jp">紫の刻</span></figcaption>
+    </figure>
+  </div>
+
+  <div class="matsuri-copy">
+    <p class="reveal">A <em>chōchin</em> is almost nothing: a spiral of split bamboo, a skin of washi paper, a flame. Collapsed, it folds flat as a fan; lit, it becomes architecture. The kanji brushed on its side name a shrine, a shop, a family — so a street of lanterns reads like a directory of the neighbourhood, written in light.</p>
+    <p class="reveal">Summer is their season. During <em>Obon</em>, lanterns are lit to guide ancestors home and, on the last night, set adrift on rivers to see them off again — <em>tōrō nagashi</em>, a current of small fires. And outside any izakaya, one red lantern — the <em>akachōchin</em> — still means what it has meant for three hundred years: the kitchen is open, come in out of the dark.</p>
+  </div>
+
+</section>
+
+<!-- ===== 07 · PAGODA — kasumi interlude: the mist clears with scroll ===== -->
+<section class="mist" id="mist">
+  <div class="mist-pin" id="mistPin">
+    <img src="assets/_marcandrew_ukiyo-e_style_five-story_pagoda_emerging_from_mist__c2ebdf48-0318-4841-a252-5adeb45c2dc5.png"
+         alt="Sumi-e ink-wash scene: the black silhouette of a five-storey pagoda and its long spire rise from banks of grey mist, pine trees and a temple hall with faint vermillion beams half-dissolved in the fog below.">
+
+    <div class="fog" style="top:8%;  --ft:36s; --fo:.95"></div>
+    <div class="fog" style="top:38%; --ft:52s; --fo:.85; animation-delay:-18s"></div>
+    <div class="fog" style="top:64%; --ft:44s; --fo:.9;  animation-delay:-30s"></div>
+
+    <div class="mist-kanji">霧<small>Kasumi — the mist</small></div>
+
+    <div class="mist-card">
+      <span class="plate-no">07 · Interlude — Plate X · The Mountain Temple</span>
+      <h3>五重塔 · The Five-Storey Pagoda</h3>
+      <p>Each roof is one of the five elements — earth, water, fire, wind, void — stacked toward the sky, with the ringed spire counting nine heavens above them. The oldest, at Hōryū-ji, has stood since around 700: among the oldest wooden buildings on Earth.</p>
+      <p>Their secret is looseness. The storeys are not fixed to each other but hang around a free-floating central pillar — the <em>shinbashira</em> — so in an earthquake each floor sways against its neighbours and the tower shrugs the shock away. Fourteen centuries of tremors; almost no pagoda has ever fallen to one.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 08 · TEA & BONSAI — the patient arts: breathing poem, stacking cards ===== -->
+<section class="patience" id="patience">
+
+  <div class="patience-intro">
+    <div class="torii-index reveal">08 · The Patient Arts</div>
+    <h2 class="reveal" style="--d:.1s">道 — The Way of Small Things</h2>
+    <div>
+      <span class="breath-line" style="--d:.3s"><span>Some arts are finished in a stroke.</span></span>
+      <span class="breath-line" style="--d:.9s"><span>These two are never finished at all —</span></span>
+      <span class="breath-line" style="--d:1.5s"><span>a bowl of tea whisked in four minutes,</span></span>
+      <span class="breath-line" style="--d:2.1s"><span>a tree shaped over four hundred years.</span></span>
+    </div>
+  </div>
+
+  <div class="patience-card tea">
+    <div class="art">
+      <img data-kenburns
+           src="assets/_marcandrew_ukiyo-e_style_overhead_view_of_matcha_tea_ceremony__fcabbdd2-a87b-4c14-be46-f352fb84edab.png"
+           alt="Overhead woodblock-style still life on woven tatami: a green-lacquered bowl of whisked matcha with a spiral of foam, a small cup of bright green tea, and a bamboo chasen whisk casting long afternoon shadows.">
+      <span class="plate-label">Plate XI · The Bowl</span>
+    </div>
+    <div class="info">
+      <div class="kicker">茶道 · Sadō — The Way of Tea</div>
+      <h3><span class="jp">一期一会</span>One meeting, one chance</h3>
+      <p>The tea ceremony is four hundred years of choreography in service of one idea: <em>ichi-go ichi-e</em> — this gathering, these guests, this bowl, will never occur again, so attend to it completely. Sen no Rikyū pared the practice to a two-mat hut and asked, in effect, how little a moment needs in order to be enough.</p>
+      <p>Every object in the print is prescribed: the <em>chawan</em> turned twice before drinking, the <em>chasen</em> whisk carved from a single node of bamboo into a hundred springy tines, the matcha itself — shade-grown leaf, stone-milled to powder — whisked not stirred, until the foam draws its own spiral like a raked garden.</p>
+    </div>
+  </div>
+
+  <div class="patience-card bonsai">
+    <div class="art">
+      <img data-kenburns
+           src="assets/_marcandrew_ukiyo-e_style_ancient_bonsai_tree_in_ceramic_pot_Ja_becaf2f8-1e3c-4a4c-862b-10ba772abc9f.png"
+           alt="Woodblock-style print of an ancient bonsai against a burnt-orange wall: the striated trunk snakes upward in an S-curve from a carved ceramic pot, carrying flat clouds of deep green foliage.">
+      <span class="plate-label">Plate XII · The Tree</span>
+    </div>
+    <div class="info">
+      <div class="kicker">盆栽 · Bonsai — A Tree in a Tray</div>
+      <h3><span class="jp">木を育てる</span>Growing time itself</h3>
+      <p>A bonsai is not a dwarf species — it is an ordinary tree persuaded, wire by wire and season by season, to live at the scale of a windowsill. The oldest specimens in Japan have been in continuous training for over <em>a thousand years</em>, passed between generations of keepers who will each see only a fraction of the work.</p>
+      <p>The ideal is <em>wabi-sabi</em>: asymmetry, age, imperfection worn openly. A masterpiece leans as this one does — the S-curve trunk called <em>moyogi</em> — and must look not made but weathered, as if the tray had simply held a mountainside for centuries.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ===== 09 · SAMURAI — finale: three katana cuts open the dark ===== -->
+<section class="samurai" id="samurai">
+  <div class="samurai-pin" id="samuraiPin">
+    <img class="samurai-ghost" src="assets/_marcandrew_ukiyo-e_style_samurai_warrior_portrait_Japanese_woo_e560f075-5ff6-4d31-a283-60d68d1a422d.png" alt="" aria-hidden="true">
+
+    <div class="cut" data-cut="0"><img src="assets/_marcandrew_ukiyo-e_style_samurai_warrior_portrait_Japanese_woo_e560f075-5ff6-4d31-a283-60d68d1a422d.png"
+      alt="Woodblock-style portrait of a samurai in full ō-yoroi armour: a horned kabuto helmet with gilded crescent, a scowling menpō war mask with flowing moustache, and rows of laced black-and-bronze plates, all set against a dull red sun on black."></div>
+    <div class="cut" data-cut="1"><img src="assets/_marcandrew_ukiyo-e_style_samurai_warrior_portrait_Japanese_woo_e560f075-5ff6-4d31-a283-60d68d1a422d.png" alt="" aria-hidden="true"></div>
+    <div class="cut" data-cut="2"><img src="assets/_marcandrew_ukiyo-e_style_samurai_warrior_portrait_Japanese_woo_e560f075-5ff6-4d31-a283-60d68d1a422d.png" alt="" aria-hidden="true"></div>
+
+    <div class="samurai-title" id="samuraiTitle">
+      <div class="torii-index">09 · The Last Plate</div>
+      <h2>武士道</h2>
+      <p class="romaji">Bushidō — the way of the warrior. The mask scowls so the man beneath it never has to.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COLOPHON ===== -->
+<footer class="colophon">
+  <div class="colophon-inner">
+    <p>The armour in the final plate is <em>ō-yoroi</em> — "great armour" — hundreds of lacquered iron scales laced with silk cord, light enough to fight in from horseback. The horned <em>kabuto</em> and snarling <em>menpō</em> mask were psychology as much as protection: a daimyō's silhouette had to be legible, and terrifying, across a battlefield.</p>
+    <p>By the long peace of the Edo period the samurai had become administrators and poets who wore two swords to the office — and the code, <em>bushidō</em>, was written down mostly after the fighting ended: rectitude, courage, benevolence, respect, honesty, honour, loyalty. The warrior became an idea, and ideas are harder to retire.</p>
+
+    <div class="plates">
+      <a href="#hero"><b>I</b> · Mount Fuji &amp; the Wave</a>
+      <a href="#torii"><b>II</b> · Senbon Torii, Kyoto</a>
+      <a href="#bamboo"><b>III–IV</b> · The Bamboo Grove</a>
+      <a href="#seasons"><b>V</b> · Sakura in Bloom</a>
+      <a href="#seasons"><b>VI</b> · The Crimson Maple</a>
+      <a href="#matsuri"><b>VII–IX</b> · Festival Lanterns</a>
+      <a href="#mist"><b>X</b> · The Mountain Temple</a>
+      <a href="#patience"><b>XI</b> · The Way of Tea</a>
+      <a href="#patience"><b>XII</b> · The Bonsai</a>
+      <a href="#koi"><b>XIII</b> · The Dark Pond</a>
+      <a href="#koi"><b>XIV</b> · Koi Among Lotus</a>
+      <a href="#samurai"><b>XV</b> · The Samurai</a>
+    </div>
+
+    <a class="back-to-start" href="#hero">
+      <div class="end-seal">終</div>
+      <div class="fin">Back to start — 浮世絵の旅</div>
+    </a>
+
+    <div class="credit">Created by <a href="https://x.com/mrcndrw" target="_blank" rel="noopener">Marc Andrew</a> and Fable&nbsp;5</div>
+  </div>
+</footer>
+
+<script>
+  // split the title into staggered characters
+  const title = document.getElementById('heroTitle');
+  title.innerHTML = [...title.textContent].map((c, i) =>
+    `<span class="char" style="animation-delay:${0.5 + i * 0.18}s">${c}</span>`
+  ).join('');
+
+  // scroll-driven parallax: image sinks slower, content drifts up and fades
+  const img = document.getElementById('heroImg');
+  const content = document.getElementById('heroContent');
+  let ticking = false;
+
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const y = window.scrollY;
+      const h = window.innerHeight;
+      const p = Math.min(y / h, 1);
+      img.style.transform = `translateY(${y * 0.35}px)`;
+      content.style.transform = `translateY(${y * -0.15}px)`;
+      content.style.opacity = 1 - p * 1.2;
+      ticking = false;
+    });
+  }
+  addEventListener('scroll', onScroll, { passive: true });
+
+  // ===== 02 · torii: scroll-progress clip wipe on the sticky figure =====
+  const toriiSection = document.getElementById('torii');
+  const toriiImg = document.getElementById('toriiImg');
+
+  function toriiWipe() {
+    const r = toriiSection.getBoundingClientRect();
+    const h = window.innerHeight;
+    // 0 when section top hits bottom of viewport → 1 by the time it's 60% in
+    const p = Math.min(Math.max((h - r.top) / (h * 1.2), 0), 1);
+    toriiImg.style.setProperty('--wipe-n', p);
+
+    // wave edge: a sine crest across the top of the reveal whose phase
+    // advances with scroll, so the water-line rolls as it rises
+    const topY = (1 - p) * 112 - 6;        // % from top; overshoots so p=1 fully clears
+    const amp = 3.5 * Math.sin(p * Math.PI); // flat at both ends, waviest mid-reveal
+    const phase = p * Math.PI * 3;
+    const pts = ['100% 100%', '0% 100%'];  // bottom corners
+    for (let x = 0; x <= 100; x += 4) {
+      const y = topY + amp * Math.sin((x / 100) * Math.PI * 2.5 + phase);
+      pts.push(`${x}% ${y}%`);
+    }
+    toriiImg.style.clipPath = `polygon(${pts.join(',')})`;
+
+    // travelling soft mask so the crest fades in instead of cutting
+    const fade = `linear-gradient(to bottom, transparent ${topY - 9}%, black ${topY + 14}%)`;
+    toriiImg.style.maskImage = fade;
+    toriiImg.style.webkitMaskImage = fade;
+  }
+  addEventListener('scroll', () => requestAnimationFrame(toriiWipe), { passive: true });
+  toriiWipe();
+
+  // ===== 03 · bamboo: pinned horizontal handscroll =====
+  const bamboo = document.getElementById('bamboo');
+  const track = document.getElementById('bambooTrack');
+  const progress = document.getElementById('bambooProgress');
+  const drifts = track.querySelectorAll('[data-drift]');
+  const desktop = matchMedia('(min-width: 761px)');
+
+  function bambooScroll() {
+    if (!desktop.matches) return;
+    const r = bamboo.getBoundingClientRect();
+    const travel = r.height - innerHeight;          // vertical runway
+    const p = Math.min(Math.max(-r.top / travel, 0), 1);
+    const maxX = track.scrollWidth - innerWidth;    // horizontal distance
+    const eased = p < 0 ? 0 : p; // linear scrub keeps it glued to the finger
+    track.style.transform = `translateX(${-eased * maxX}px)`;
+    progress.style.setProperty('--prog', p);
+    // plates drift slightly against travel direction for depth
+    drifts.forEach(img => img.style.setProperty('--drift', eased * 60 - 30));
+  }
+  addEventListener('scroll', () => requestAnimationFrame(bambooScroll), { passive: true });
+  addEventListener('resize', bambooScroll);
+  bambooScroll();
+
+  // ===== 04 · seasons: scroll-driven wipe from spring to autumn =====
+  const seasons = document.getElementById('seasons');
+  const seasonsPin = document.getElementById('seasonsPin');
+  const springInfo = document.getElementById('springInfo');
+  const autumnInfo = document.getElementById('autumnInfo');
+
+  function seasonsScroll() {
+    const r = seasons.getBoundingClientRect();
+    const travel = r.height - innerHeight;
+    const p = Math.min(Math.max(-r.top / travel, 0), 1);
+    // hold spring for the first 15%, finish wipe by 85%
+    const w = Math.min(Math.max((p - 0.15) / 0.7, 0), 1);
+    seasonsPin.style.setProperty('--split', `${w * 100}%`);
+    springInfo.classList.toggle('hidden', w > 0.5);
+    autumnInfo.classList.toggle('hidden', w <= 0.5);
+  }
+  addEventListener('scroll', () => requestAnimationFrame(seasonsScroll), { passive: true });
+  seasonsScroll();
+
+  // scatter drifting petals (spring) and leaves (autumn) into their layers
+  for (const layer of document.querySelectorAll('.season-layer')) {
+    for (let i = 0; i < 14; i++) {
+      const b = document.createElement('span');
+      b.className = 'drift-bit';
+      b.style.left = `${Math.random() * 100}%`;
+      b.style.setProperty('--t', `${7 + Math.random() * 8}s`);
+      b.style.setProperty('--dl', `${-Math.random() * 12}s`);
+      b.style.opacity = .4 + Math.random() * .5;
+      b.style.scale = .6 + Math.random() * .9;
+      layer.appendChild(b);
+    }
+  }
+
+  // ===== 05 · koi: living water =====
+  const pond = document.getElementById('koiPond');
+  const turb = document.getElementById('waterTurb');
+  const pondImg = document.getElementById('koiPondImg');
+
+  // breathe the displacement field so water AND koi undulate,
+  // but only while the pond is on screen
+  let pondVisible = false;
+  new IntersectionObserver(e => { pondVisible = e[0].isIntersecting; }, { threshold: 0 })
+    .observe(pond);
+
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  (function waterTick(t) {
+    if (pondVisible && !reduceMotion) {
+      const bx = 0.010 + Math.sin(t / 2400) * 0.0022;
+      const by = 0.016 + Math.cos(t / 3100) * 0.0028;
+      turb.setAttribute('baseFrequency', `${bx.toFixed(5)} ${by.toFixed(5)}`);
+      pondImg.style.transform = `translateY(${Math.sin(t / 2800) * 6}px)`;
+    }
+    requestAnimationFrame(waterTick);
+  })(0);
+
+  // ripple rings: ambient blooms + tap-to-ripple
+  function castRipple(x, y, big = false) {
+    const ring = document.createElement('span');
+    ring.className = 'ripple-ring';
+    ring.style.left = `${x}%`;
+    ring.style.top = `${y}%`;
+    ring.style.setProperty('--rs', `${big ? 55 : 25 + Math.random() * 25}vmin`);
+    ring.style.setProperty('--rt', `${big ? 3 : 3.5 + Math.random() * 2}s`);
+    pond.appendChild(ring);
+    ring.addEventListener('animationend', () => ring.remove());
+  }
+  setInterval(() => {
+    if (pondVisible && !reduceMotion) castRipple(10 + Math.random() * 80, 10 + Math.random() * 80);
+  }, 1700);
+  pond.addEventListener('pointerdown', e => {
+    const r = pond.getBoundingClientRect();
+    castRipple(((e.clientX - r.left) / r.width) * 100, ((e.clientY - r.top) / r.height) * 100, true);
+  });
+
+  // circular ripple reveal of the second print, driven by scroll
+  const koiReveal = document.getElementById('koiReveal');
+  const koiRevealImg = document.getElementById('koiRevealImg');
+  const wavefront = document.getElementById('koiWavefront');
+
+  function koiRevealScroll() {
+    const r = koiReveal.getBoundingClientRect();
+    const p = Math.min(Math.max((innerHeight - r.top) / (innerHeight * .85), 0), 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    koiRevealImg.style.setProperty('--r', `${eased * 75}%`);
+    // wavefront ring rides just ahead of the clip edge, fading at full reveal
+    const ref = Math.hypot(r.width, r.height) / Math.SQRT2; // clip % reference
+    const d = eased * 0.75 * ref * 2;
+    wavefront.style.width = `${d}px`;
+    wavefront.style.height = `${d}px`;
+    wavefront.style.opacity = `${(1 - eased) * .9}`;
+  }
+  addEventListener('scroll', () => requestAnimationFrame(koiRevealScroll), { passive: true });
+  koiRevealScroll();
+
+  // ===== 06 · matsuri: lanterns ignite, night lifts, embers rise =====
+  const matsuri = document.getElementById('matsuri');
+
+  // ignite each plate (staggered via --ig) the first time it enters view
+  const igniteIo = new IntersectionObserver(entries => {
+    for (const e of entries) {
+      if (e.isIntersecting) {
+        e.target.classList.add('lit');
+        igniteIo.unobserve(e.target);
+        // title glow lights with the first lantern
+        matsuri.classList.add('lit');
+      }
+    }
+  }, { threshold: 0.35 });
+  document.querySelectorAll('.lantern-plate').forEach(el => igniteIo.observe(el));
+
+  // the darkness lifts as you scroll deeper into the night
+  function matsuriScroll() {
+    const r = matsuri.getBoundingClientRect();
+    const p = Math.min(Math.max((innerHeight - r.top) / (innerHeight * 1.4), 0), 1);
+    matsuri.style.setProperty('--night', 1 - p);
+  }
+  addEventListener('scroll', () => requestAnimationFrame(matsuriScroll), { passive: true });
+  matsuriScroll();
+
+  // rising embers scattered through the section
+  if (!reduceMotion) {
+    for (let i = 0; i < 18; i++) {
+      const em = document.createElement('span');
+      em.className = 'ember';
+      em.style.left = `${Math.random() * 100}%`;
+      em.style.setProperty('--et', `${8 + Math.random() * 9}s`);
+      em.style.setProperty('--ed', `${-Math.random() * 15}s`);
+      em.style.scale = .5 + Math.random();
+      matsuri.appendChild(em);
+    }
+  }
+
+  // ===== 07 · mist: fog thins as you scroll through the interlude =====
+  const mist = document.getElementById('mist');
+  const mistPin = document.getElementById('mistPin');
+
+  function mistScroll() {
+    const r = mist.getBoundingClientRect();
+    const travel = r.height - innerHeight;
+    const p = Math.min(Math.max(-r.top / travel, 0), 1);
+    // ease the clearing so it lingers foggy, then resolves
+    mistPin.style.setProperty('--clear', p * p * (3 - 2 * p));
+  }
+  addEventListener('scroll', () => requestAnimationFrame(mistScroll), { passive: true });
+  mistScroll();
+
+  // ===== 08 · patience: Ken Burns on stacking cards =====
+  const kenCards = document.querySelectorAll('.patience-card');
+  function kenScroll() {
+    kenCards.forEach(card => {
+      const r = card.getBoundingClientRect();
+      // progress of this card's pass through the viewport
+      const p = Math.min(Math.max((innerHeight - r.top) / (innerHeight * 1.6), 0), 1);
+      card.querySelector('[data-kenburns]').style.setProperty('--kz', p);
+    });
+  }
+  addEventListener('scroll', () => requestAnimationFrame(kenScroll), { passive: true });
+  kenScroll();
+
+  // ===== 09 · samurai: three katana cuts open the dark =====
+  const samurai = document.getElementById('samurai');
+  const samuraiPin = document.getElementById('samuraiPin');
+  const cuts = samuraiPin.querySelectorAll('.cut');
+  const samuraiTitle = document.getElementById('samuraiTitle');
+  const SLANT = 14; // % horizontal offset of the diagonal, top vs bottom
+
+  // each cut owns a third of the width and opens during its scroll window
+  const CUT_WINDOWS = [[0.05, 0.3], [0.32, 0.57], [0.59, 0.84]];
+
+  function samuraiScroll() {
+    const r = samurai.getBoundingClientRect();
+    const travel = r.height - innerHeight;
+    const p = Math.min(Math.max(-r.top / travel, 0), 1);
+
+    cuts.forEach((cut, i) => {
+      const [a, b] = CUT_WINDOWS[i];
+      const g = Math.min(Math.max((p - a) / (b - a), 0), 1);
+      const ease = 1 - Math.pow(1 - g, 2.5);          // fast slash, soft settle
+      const c = i * 33.34 + 16.67;                     // band centre (%)
+      const hw = 16.68 * ease;                         // half-width grows 0→full
+      cut.style.clipPath =
+        `polygon(${c - hw + SLANT}% -1%, ${c + hw + SLANT}% -1%, ${c + hw - SLANT}% 101%, ${c - hw - SLANT}% 101%)`;
+    });
+
+    // title lands after the third cut completes
+    samuraiTitle.style.setProperty('--tt', Math.min(Math.max((p - 0.86) / 0.1, 0), 1));
+  }
+  addEventListener('scroll', () => requestAnimationFrame(samuraiScroll), { passive: true });
+  samuraiScroll();
+
+  // ===== generic scroll reveals =====
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    }
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal, .breath-line').forEach(el => io.observe(el));
+
+  // ===== counting numbers in fact cards =====
+  const counterIo = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      counterIo.unobserve(e.target);
+      const el = e.target;
+      const target = +el.dataset.count;
+      const textNode = el.lastChild; // the trailing "0" text node after any <small>
+      const t0 = performance.now(), dur = 1600;
+      (function tick(t) {
+        const p = Math.min((t - t0) / dur, 1);
+        const eased = 1 - Math.pow(1 - p, 4);
+        textNode.textContent = Math.round(target * eased).toLocaleString();
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+    }
+  }, { threshold: 0.6 });
+  document.querySelectorAll('[data-count]').forEach(el => counterIo.observe(el));
+</script>
+
+</body>
+</html>
